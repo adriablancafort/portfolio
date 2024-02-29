@@ -24,13 +24,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-span {
-  font-size: 6rem;
-    animation: wave 2s;
-  transform-origin: 70% 70%;
-    display: inline-block;
+  position: relative;
 }
 
 h1 {
@@ -46,6 +40,29 @@ p {
   animation: fade-in-up 1s;
 }
 
+a {
+  color: #000;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+a:hover {
+  color: #444;
+}
+
+.hello {
+  animation: wave 2s;
+  transform-origin: 60% 80%;
+}
+
+.links {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
 @keyframes fade-in-up {
   0% {
     transform: translateY(20px);
@@ -58,12 +75,28 @@ p {
 }
 
 @keyframes wave {
-    0% { transform: rotate( 0.0deg) }
-   10% { transform: rotate(14.0deg) }
-   20% { transform: rotate(-8.0deg) }
-   30% { transform: rotate(14.0deg) }
-   40% { transform: rotate(-4.0deg) }
-   50% { transform: rotate(10.0deg) }
-   60% { transform: rotate( 0.0deg) }
-  100% { transform: rotate( 0.0deg) }
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(14deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  30% {
+    transform: rotate(14deg);
+  }
+  40% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
