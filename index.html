@@ -6,17 +6,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adrià Blancafort</title>
     <link rel="icon" href="/favicon.svg">
-    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <img src="/hand.svg" alt="Hand Emoji" class="hello">
-    <h1>Hi, it's Adrià</h1>
-    <p>Fullstack web developer from Barcelona.</p>
+    <h1 class="title">Hi, I'm Adrià Blancafort</h1>
+
+    <canvas id="canvas"></canvas>
+
     <span class="links">
         <a href="https://github.com/adriablancafort" target="_blank">GitHub</a>
         <a href="https://linkedin.com/in/adriablancafort" target="_blank">Linkedin</a>
     </span>
+
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: "PolySans Slim", system-ui, sans-serif;
+            font-size: large;
+        }
+
+        h1 {
+            font-weight: 400;
+            font-size: 5rem;
+            animation: fade-in-up 0.8s;
+        }
+
+        a {
+            color: #000;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+        }
+
+        a:hover {
+            color: #444;
+        }
+
+        .links {
+            position: absolute;
+            bottom: 1rem;
+            right: 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        @font-face {
+            font-family: "PolySans Slim";
+            src: url("/polysans-slim.woff2") format("woff2");
+            weight: 400;
+        }
+
+        @keyframes fade-in-up {
+            0% {
+                transform: translateY(20px);
+                filter: blur(5px);
+            }
+
+            100% {
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+    </style>
+
+    <script>
+        class Cell {
+            static size = 8;
+
+            constructor(context, gridX, gridY) {
+                this.context = context;
+                this.gridX = gridX;
+                this.gridY = gridY;
+                this.alive = Math.random() > 0.4;
+            }
+
+            draw() {
+                this.context.fillStyle = this.alive ? '#83b8fc' : '#ffffff';
+                this.context.fillRect(this.gridX * Cell.size, this.gridY * Cell.size, Cell.size, Cell.size);
+            }
+        }
+
+        class GameWorld {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                this.context = this.canvas.getContext('2d');
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                GameWorld.numColumns = Math.floor(this.canvas.width / Cell.size);
+                GameWorld.numRows = Math.floor(this.canvas.height / Cell.size);
+                this.gameObjects = this.createGrid();
+                window.requestAnimationFrame(() => this.gameLoop());
+            }
+
+            createGrid() {
+                let grid = [];
+                for (let y = 0; y < GameWorld.numRows; y++) {
+                    for (let x = 0; x < GameWorld.numColumns; x++) {
+                        grid.push(new Cell(this.context, x, y));
+                    }
+                }
+                return grid;
+            }
+
+            isAlive(x, y) {
+                if (x < 0 || x >= GameWorld.numColumns || y < 0 || y >= GameWorld.numRows) {
+                    return false;
+                }
+                return this.gameObjects[this.gridToIndex(x, y)].alive ? 1 : 0;
+            }
+
+            gridToIndex(x, y) {
+                return x + (y * GameWorld.numColumns);
+            }
+
+            checkSurrounding() {
+                for (let x = 0; x < GameWorld.numColumns; x++) {
+                    for (let y = 0; y < GameWorld.numRows; y++) {
+                        let numAlive = [-1, 0, 1].reduce((sum, dx) => sum + [-1, 0, 1].reduce((sum, dy) => sum + this.isAlive(x + dx, y + dy), 0), 0) - this.isAlive(x, y);
+                        let centerIndex = this.gridToIndex(x, y);
+                        this.gameObjects[centerIndex].nextAlive = numAlive === 2 ? this.gameObjects[centerIndex].alive : numAlive === 3;
+                    }
+                }
+                this.gameObjects.forEach(cell => cell.alive = cell.nextAlive);
+            }
+
+            gameLoop() {
+                this.checkSurrounding();
+                this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.gameObjects.forEach(cell => cell.draw());
+                setTimeout(() => window.requestAnimationFrame(() => this.gameLoop()), 100);
+            }
+        }
+
+        window.onload = () => new GameWorld('canvas');
+    </script>
 </body>
 
 </html>
