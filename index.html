@@ -1,84 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adrià Blancafort</title>
-    <link rel="icon" href="/favicon.svg">
-</head>
-
-<body>
-    <h1 class="title">Hi, I'm Adrià Blancafort</h1>
-
-    <canvas id="canvas"></canvas>
-
-    <span class="links">
-        <a href="https://github.com/adriablancafort" target="_blank">GitHub</a>
-        <a href="https://linkedin.com/in/adriablancafort" target="_blank">Linkedin</a>
-    </span>
-
-    <style>
-        body {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            font-family: "PolySans Slim", system-ui, sans-serif;
-            font-size: large;
-        }
-
-        h1 {
-            font-weight: 400;
-            font-size: 5rem;
-            animation: fade-in-up 0.8s;
-        }
-
-        a {
-            color: #000;
-            text-decoration: underline;
-            text-decoration-thickness: 1px;
-        }
-
-        a:hover {
-            color: #444;
-        }
-
-        .links {
-            position: absolute;
-            bottom: 1rem;
-            right: 1.5rem;
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-
-        @font-face {
-            font-family: "PolySans Slim";
-            src: url("/polysans-slim.woff2") format("woff2");
-            weight: 400;
-        }
-
-        @keyframes fade-in-up {
-            0% {
-                transform: translateY(20px);
-                filter: blur(5px);
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Adrià Blancafort</title>
+        <link rel="icon" href="/favicon.svg">
+        <style>
+            body {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                font-family: "PolySans Slim", system-ui, sans-serif;
+                font-size: large;
             }
-
-            100% {
-                transform: translateY(0);
-                filter: blur(0);
+    
+            h1 {
+                font-weight: 400;
+                font-size: 5rem;
+                animation: fade-in-up 0.8s;
             }
-        }
-    </style>
+    
+            a {
+                color: #000;
+                text-decoration: underline;
+                text-decoration-thickness: 1px;
+            }
+    
+            a:hover {
+                color: #444;
+            }
+    
+            .links {
+                position: absolute;
+                bottom: 1rem;
+                right: 1.5rem;
+                display: flex;
+                gap: 0.5rem;
+            }
+    
+            canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: -1;
+            }
+    
+            @font-face {
+                font-family: "PolySans Slim";
+                src: url("/polysans-slim.woff2") format("woff2");
+                weight: 400;
+            }
+    
+            @keyframes fade-in-up {
+                0% {
+                    transform: translateY(20px);
+                    filter: blur(5px);
+                }
+    
+                100% {
+                    transform: translateY(0);
+                    filter: blur(0);
+                }
+            }
+        </style>
+    </head>
+ 
+    <body>
+        <h1 class="title">Hi, I'm Adrià Blancafort</h1>
+    
+        <canvas id="canvas"></canvas>
+    
+        <span class="links">
+            <a href="https://github.com/adriablancafort" target="_blank">GitHub</a>
+            <a href="https://linkedin.com/in/adriablancafort" target="_blank">Linkedin</a>
+        </span>
+    </body>
 
     <script>
         class Cell {
@@ -151,6 +150,4 @@
 
         window.onload = () => new GameWorld('canvas');
     </script>
-</body>
-
 </html>
